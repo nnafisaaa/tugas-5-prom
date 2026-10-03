@@ -1,0 +1,138 @@
+openapi: 3.0.3
+
+info:
+  title: Visitor Prediction API
+  description: REST API Prediksi Jumlah Pengunjung Wisata Religi Makam Gus Dur menggunakan XGBoost
+  version: 1.0.0
+
+
+servers:
+  - url: http://localhost:8000
+
+
+paths:
+
+  /api/predict:
+
+    post:
+
+      summary: Prediksi jumlah pengunjung
+
+      description:
+        API menerima input hari kunjungan dan menghasilkan prediksi jumlah pengunjung menggunakan model XGBoost.
+
+
+      requestBody:
+
+        required: true
+
+        content:
+
+          application/json:
+
+            schema:
+
+              $ref: '#/components/schemas/PredictionRequest'
+
+
+
+      responses:
+
+
+        '200':
+
+          description: Prediksi berhasil
+
+          content:
+
+            application/json:
+
+              schema:
+
+                $ref: '#/components/schemas/PredictionResponse'
+
+
+
+        '400':
+
+          description: Input tidak valid
+
+
+
+        '500':
+
+          description: Kesalahan proses prediksi
+
+
+
+components:
+
+
+  schemas:
+
+
+    PredictionRequest:
+
+
+      type: object
+
+
+      required:
+
+        - visit_day
+
+
+      properties:
+
+
+        visit_day:
+
+          type: string
+
+          description: Hari kunjungan yang akan diprediksi
+
+          example: Sunday
+
+
+
+    PredictionResponse:
+
+
+      type: object
+
+
+      properties:
+
+
+        status:
+
+          type: string
+
+          example: success
+
+
+        prediction:
+
+          type: integer
+
+          example: 1500
+
+
+
+    ErrorResponse:
+
+
+      type: object
+
+
+      properties:
+
+
+        status:
+
+          type: string
+
+
+        message:
+
+          type: string
